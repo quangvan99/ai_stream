@@ -1,0 +1,90 @@
+{
+    "source": {
+      "plugin": "source",
+      "properties": {
+        "urls": [
+          "file:///home/project/videos/sample_720p.mp4",
+          "file:///home/project/videos/sample_720p.mp4"
+        ]
+      }
+    },
+    "sm": {
+      "plugin": "nvstreammux",
+      "properties": {
+        "width": 1280,
+        "height": 720,
+        "batch-size": 4,
+        "batched-push-timeout": 4000000,
+        "nvbuf-memory-type": null
+      }
+    },
+    "nvvideoconvert1": {
+      "plugin": "nvvideoconvert",
+      "properties": {
+        "nvbuf-memory-type": null
+      }
+    },
+    "capsfilter": {
+      "plugin": "capsfilter",
+      "properties": {
+        "caps": null
+      }
+    },
+    "nvinfer": {
+      "plugin": "nvinfer",
+      "properties": {
+        "config-file-path": "/home/project/weights/config_infer_primary_yoloV8.txt",
+        "batch-size": null
+      }
+    },
+    "nvtracker": {
+      "plugin": "nvtracker",
+      "properties": {
+        "tracker-width": 640,
+        "tracker-height": 384,
+        "gpu-id": 0,
+        "ll-lib-file": "/home/project/weights/libnvds_nvmultiobjecttracker.so",
+        "ll-config-file": "/home/project/weights/config_tracker_NvDCF_perf.yml"
+      }
+    },
+    "nvvideoconvert2": {
+      "plugin": "nvvideoconvert",
+      "properties": {
+        "nvbuf-memory-type": null
+      }
+    },
+    "tiler": {
+      "plugin": "nvmultistreamtiler",
+      "properties": {
+        "rows": 2,
+        "columns": 2,
+        "width": 960,
+        "height": 540
+      }
+    },
+    "nvvideoconvert3": {
+      "plugin": "nvvideoconvert",
+      "properties": {
+        "nvbuf-memory-type": null
+      }
+    },
+    "nvdsosd": {
+      "plugin": "nvdsosd",
+      "properties": {
+        "process-mode": 0,
+        "display-text": 1
+      }
+    },
+    "nvvideoconvert4": {
+      "plugin": "nvvideoconvert",
+      "properties": {
+        "nvbuf-memory-type": null
+      }
+    },
+    "fpsdisplaysink": {
+      "plugin": "fpsdisplaysink",
+      "properties": {
+        "sync": false
+      }
+    }
+  }
