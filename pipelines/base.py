@@ -198,6 +198,7 @@ class BasePipeline:
             exit(1)
         
         #Add source bin to our list and to pipeline
+
         self.pipeline.add(source_bin)
 
         #Set state of source bin to playing

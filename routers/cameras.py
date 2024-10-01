@@ -5,9 +5,9 @@ import threading
 from database import db
 from models.cameras import CameraUpdate
 from utils import parse_json
-from pipeline.base import BasePipeline as pipeline  # create base pipeline here
+from pipeline import pipeline   # create base pipeline here
 
-router = APIRouter()
+router = APIRouter() 
 
 @router.get("/cameras")
 async def get_cameras():
@@ -28,6 +28,8 @@ async def create_camera(manager_id: str, task_id : str, new_camera: CameraUpdate
     threading.Thread(target=pipeline.add_cam, args=(len(task["cameras"]), new_camera.uri)).start()
 
     new_camera.task_id = task_id
+    new_camera.source_id = len(task["cameras"]) # source_id is the index of camera in the task
+
     camera = await db.cameras.insert_one(new_camera.model_dump(by_alias=True))
 
     await db.tasks.update_one({"_id": ObjectId(task_id)},{"$push": {"cameras": str(camera.inserted_id)}})
@@ -68,6 +70,7 @@ async def update_camera(manager_id: str, task_id : str, camera_id: str, new_came
     source_id = camera["source_id"]
     threading.Thread(target=pipeline.change_cam, args=(source_id, new_camera.uri)).start()
 
+    
     await db.cameras.update_one({"_id": ObjectId(camera_id)},{"$set": new_camera.model_dump(by_alias=True, exclude_none=True, exclude_defaults=True)})
 
     return {"message": "Camera updated successfully"}

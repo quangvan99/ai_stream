@@ -6,7 +6,7 @@ from database import db
 from models.tasks import TaskUpdate
 from models.cameras import CameraUpdate
 from utils import parse_json
-from pipeline.base import BasePipeline as pipeline  # create base pipeline here
+from pipeline import pipeline   # create base pipeline here
 
 router = APIRouter()
 
